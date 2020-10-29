@@ -1,12 +1,35 @@
+var arr1 = [1, 2, 3, 4]
+console.log(arr1);
+
+var arr2 = ["name", 12, true]
+
+arr2.push("age");
+console.log(arr2);
+
+var arr3 = [[1, 2], [2, 3], [3, 4]]
+arr3.pop();
+console.log(arr3);
+
+var arr4 = [[1,2,3], [4,5,6], [7,8,9],
+[1,2,3], [4,5,6], [7,8,9],
+[1,2,3], [4,5,6], [7,8,9]
+]
+console.log(arr4)
+
 const Engine = Matter.Engine;
 const World= Matter.World;
 const Bodies = Matter.Bodies;
 const Constraint = Matter.Constraint;
 
 var engine, world;
-var box1, pig1,pig3;
+var box1, pig1, pig3;
 var backgroundImg,platform;
 var bird, slingshot;
+var gameState, ONSLING, OFFSLING;
+ONSLING = 0;
+OFFSLING = 1;
+LANDED = 2;
+gameState = ONSLING;
 
 
 function preload() {
@@ -66,15 +89,21 @@ function draw(){
     platform.display();
     //log6.display();
     slingshot.display();    
+
+    console.log(bird.body.speed)
 }
 
 function mouseDragged(){
-    Matter.Body.setPosition(bird.body, {x: mouseX , y: mouseY});
+    if (gameState === ONSLING){
+        Matter.Body.setPosition(bird.body, {x: mouseX , y: mouseY});
+    }
+    
 }
 
 
 function mouseReleased(){
     slingshot.fly();
+    gameState = OFFSLING;
 }
 
 function keyPressed(){
